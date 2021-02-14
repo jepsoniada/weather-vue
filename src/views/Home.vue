@@ -2,6 +2,7 @@
 	<div>
 		<h1>pick your city</h1>
 		<CityNode v-for="city in staticCities" :key="city.id" :cityId="city.id" :city="city.name" :country='countryNamespace[city.country]'/>
+		<button @click='goToMain'>submit</button>
 	</div>
 </template>
 
@@ -82,6 +83,11 @@ export default Vue.extend({
 					}
 				},
 			]
+		}
+	},
+	methods: {
+		goToMain () {
+			this.$router.push("/main")
 		}
 	}
 })
