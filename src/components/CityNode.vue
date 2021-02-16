@@ -1,7 +1,7 @@
 <template>
     <label class="cityNode">
         {{city}}, {{country}}
-        <input type="checkbox" @click='addFocusedCity(cityObject)'>
+        <input v-model="isChecked" type="checkbox" @click='validateAddingCity()'>
     </label>
 </template>
 
@@ -17,6 +17,11 @@ interface cityInfo {
 
 export default Vue.extend({
     name: "CityNode",
+    data: () => {
+        return {
+            isChecked: false,
+        }
+    },
     props: {
         city: String,
         country: String,
@@ -32,7 +37,16 @@ export default Vue.extend({
         }
     },
     methods: {
-        ...mapMutations(['addFocusedCity']),
+        ...mapMutations(['addFocusedCity', "removeFromFocusedCities"]),
+        validateAddingCity () {
+            if (this.isChecked) {
+                console.log("removing")
+                this.removeFromFocusedCities(this.cityObject)
+            } else {
+                console.log("adding")
+                this.addFocusedCity(this.cityObject)
+            }
+        }
         // goToCityWeather() {
         //     this.addFocusedCity({
         //         city: this.city,
@@ -44,3 +58,9 @@ export default Vue.extend({
     }
 })
 </script>
+
+<style>
+    .cityNode {
+        display: block;
+    }
+</style>

@@ -31,6 +31,7 @@ export default Vue.extend({
 	data () {
 		return {
 			countryNamespace: iso3166,
+			// to replace
 			staticCities: [
 				{
 					"id": 756135,

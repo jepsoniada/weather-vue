@@ -18,10 +18,15 @@ export default new Vuex.Store({
 		addFocusedCity (state, info: cityInfo) {
 			// const FollowedCitiesJson = <string>localStorage.getItem("followedCities")
 			// state.followedList = JSON.parse(FollowedCitiesJson)
-			console.log(state.followedList)
 			state.followedList.push(info)
+			console.log(state.followedList)
 			// localStorage.setItem("followedCities", JSON.stringify(info))
 		},
+		removeFromFocusedCities (state, info: cityInfo) {
+			// removes based on city id
+			state.followedList.splice(state.followedList.findIndex((e) => e.cityId = info.cityId), 1)
+			console.log(state.followedList)
+		}
 		// addFocusedCity (state, info: cityInfo) {
 		// 	state.count = info.cityId
 		// }

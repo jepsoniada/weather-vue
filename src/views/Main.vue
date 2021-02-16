@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>:rain:</h1>
-        <cityStats v-for="(weather, index) in APIresponse" :key="followedList[index].cityId" :city="followedList[index].city" :country="followedList[index].country" :temperature="weather.main.temp" :humidity="weather.main.humidity"/>
+        <cityStats v-for="(weather, index) in APIresponse" :key="followedList[index].cityId" :cityData="followedList[index]" :temperature="weather.main.temp" :humidity="weather.main.humidity"/>
         <hr>
         {{APIresponse}}
     </div>
@@ -20,13 +20,70 @@ function* iota () {
     }
 }
 
+interface apiResponseObject {
+    coord: {
+        lon: number,
+        lat: number ,
+    },
+    weather: {
+        id: number,
+        main: string,
+        description: string,
+        icon: string,
+    }[],
+    base: string,
+    main: {
+        temp:number,
+        feels_like: number,
+        temp_min: number,
+        temp_max: number,
+        pressure: number,
+        humidity: number,
+    },
+    visibility: number,
+    wind: {
+        speed: number,
+        deg: number
+    },
+    snow: {
+        "1h": number
+    },
+    clouds: {
+        all: number
+    },
+    dt: number,
+    sys: {
+        type: number,
+        id: number,
+        country: string,
+        sunrise: number,
+        sunset: number
+    },
+    timezone: number,
+    id: number,
+    name: string,
+    cod: number 
+}
+
+// function primitiveObjectComparision (obj1: object, obj2: object): boolean {
+//     if (Object.keys(obj1).length != Object.keys(obj1).length) {
+//         return false
+//     }
+//     for (let a of Object.keys(obj1)) {
+//         if (obj1[0] == obj2[a]) {
+//             return false
+//         }
+//     }
+//     return true
+// }
+
 export default Vue.extend({
     components: {
         cityStats,
     },
     data () {
         return {
-            APIresponse: new Array<Object>(),
+            APIresponse: new Array<apiResponseObject>(),
             iota: iota(),
         }
     },
@@ -43,7 +100,12 @@ export default Vue.extend({
                         return res.json()
                     })
                     .then(res => {
-                        this.APIresponse.push(res)
+                        let inedxInResArray = this.APIresponse.findIndex(e => e.sys.id == res.sys.id)
+                        if (inedxInResArray == -1) {
+                            this.APIresponse.push(res)
+                        } else {
+                            this.APIresponse.splice(inedxInResArray, 1, res)
+                        }
                     })
             }
         }
@@ -52,7 +114,10 @@ export default Vue.extend({
         this.getWeatherFromApi()
     },
     mounted () {
-        setInterval(() => {console.log(`${this.iota.next().value}, 6 sec`)}, 6000)
+        setInterval(async () => {
+            await this.getWeatherFromApi()
+            console.log("regular API call")
+        }, 60000)
     },
 })
 </script>
