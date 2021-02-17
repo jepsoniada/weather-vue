@@ -20,7 +20,7 @@ function* iota () {
     }
 }
 
-interface apiResponseObject {
+interface currentApiResponse {
     coord: {
         lon: number,
         lat: number ,
@@ -83,7 +83,7 @@ export default Vue.extend({
     },
     data () {
         return {
-            APIresponse: new Array<apiResponseObject>(),
+            APIresponse: new Array<currentApiResponse>(),
             iota: iota(),
         }
     },
@@ -93,7 +93,7 @@ export default Vue.extend({
         ])
     },
     methods: {
-        async getWeatherFromApi() {
+        async getCurrentWeatherFromApi() {
             for (let a of this.followedList) {
                 await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${a.cityId}&units=metric&appid=73a6e50cbb90a034018a7b761b97aaa8`, {method: "GET"})
                     .then(res => {
@@ -111,11 +111,11 @@ export default Vue.extend({
         }
     },
 	created () {
-        this.getWeatherFromApi()
+        this.getCurrentWeatherFromApi()
     },
     mounted () {
         setInterval(async () => {
-            await this.getWeatherFromApi()
+            await this.getCurrentWeatherFromApi()
             console.log("regular API call")
         }, 60000)
     },

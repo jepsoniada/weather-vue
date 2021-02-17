@@ -1,10 +1,10 @@
 <template>
 	<div id="sing-in">
-		<div id="sing-in-input">
+		<div>
 			<input placeholder="login" v-model="login"/>
 			<input placeholder="password" v-model="password"/>
 		</div>
-		<button @click='checkInput'>e</button>
+		<button @click='checkInput'>sing in</button>
 	</div>
 </template>
 

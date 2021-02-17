@@ -12,7 +12,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-interface apiResponseObject {
+interface currentApiResponse {
     coord: {
         lon: number,
         lat: number ,
@@ -68,7 +68,7 @@ export default Vue.extend({
         return {
             arrOfStats: new Array<apiResponseSimplified>(),
             localization: this.$route.query.id,
-            dataHold: {} as apiResponseObject,
+            dataHold: {} as currentApiResponse,
         }
     },
     watch: {
@@ -82,13 +82,13 @@ export default Vue.extend({
         }
     },
     methods: {
-        async getWeather (): Promise<apiResponseObject> {
+        async getWeather (): Promise<currentApiResponse> {
             console.log("called in chart")
             let result: any
             await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${this.localization}&units=metric&appid=73a6e50cbb90a034018a7b761b97aaa8`)
                 .then(res => res.json())
                 .then(res => result = res)
-            return <apiResponseObject>result
+            return <currentApiResponse>result
         },
     },
     mounted () {
