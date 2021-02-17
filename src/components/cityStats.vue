@@ -1,6 +1,9 @@
 <template>
     <div class="cityStats" @click="goToChart">
-        {{cityData.city}}, {{cityData.country}} | temp: {{temperature}}, humidity: {{humidity}}%
+        <div>{{cityData.city}}</div>
+        <div>{{cityData.country}}</div>
+        <div>temp: {{temperature}}</div>
+        <div>humidity: {{humidity}}%</div>
     </div>
 </template>
 
@@ -31,4 +34,8 @@ export default Vue.extend({
 </script>
 
 <style>
+    .cityStats {
+        padding: 16px;
+        max-width: 150px;
+    }
 </style>

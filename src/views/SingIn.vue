@@ -10,6 +10,7 @@
 
 <script lang='ts'>
 import Vue from "vue"
+import { mapState } from "vuex"
 
 export default Vue.extend({
 	name: 'SingIn',
@@ -19,10 +20,19 @@ export default Vue.extend({
 			password: "",
 		}
 	},
+	computed: {
+		...mapState([
+			'isNewcomer'
+		])
+	},
 	methods: {
 		checkInput (): void {
 			if (!!this.login && !!this.password) {
-				this.$router.push("/home")
+				if (this.isNewcomer) {
+					this.$router.push("/home")
+				} else {
+					this.$router.push("/main")
+				}
 			}
 		},
 	}

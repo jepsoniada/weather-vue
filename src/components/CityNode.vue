@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapMutations } from "vuex"
+import { mapMutations, mapState } from "vuex"
 
 interface cityInfo {
 	city: string,
@@ -28,6 +28,9 @@ export default Vue.extend({
         cityId: Number,
     },
     computed: {
+        ...mapState([
+            "followedList"
+        ]),
         cityObject(): cityInfo {
             return {
                 city: this.city,
@@ -47,14 +50,11 @@ export default Vue.extend({
                 this.addFocusedCity(this.cityObject)
             }
         }
-        // goToCityWeather() {
-        //     this.addFocusedCity({
-        //         city: this.city,
-        //         country: this.country,
-        //         citId: this.cityId,
-        //     })
-        //     this.$router.push("/main")
-        // }
+    },
+    mounted () {
+        if (this.followedList.findIndex((e: cityInfo) => e.cityId == this.cityId) > -1) {
+            this.isChecked = true
+        }
     }
 })
 </script>

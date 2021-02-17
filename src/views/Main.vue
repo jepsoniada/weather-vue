@@ -1,6 +1,9 @@
 <template>
     <div>
-        <h1>:rain:</h1>
+        <div class="header">
+            <h1>:rain:</h1>
+            <button @click="goToCitySelect" >add city</button>
+        </div>
         <cityStats v-for="(weather, index) in APIresponse" :key="followedList[index].cityId" :cityData="followedList[index]" :temperature="weather.main.temp" :humidity="weather.main.humidity"/>
         <hr>
         {{APIresponse}}
@@ -108,6 +111,9 @@ export default Vue.extend({
                         }
                     })
             }
+        },
+        goToCitySelect () {
+            this.$router.push('/home')
         }
     },
 	created () {
@@ -121,3 +127,11 @@ export default Vue.extend({
     },
 })
 </script>
+
+<style scoped>
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+</style>

@@ -3,6 +3,9 @@
         <h1>:chart:</h1>
         <div>
             {{arrOfStats}}
+            <!--             | -->
+            <!-- to remove \|/ -->
+            <!--            ` -->
             <hr>
             {{dataHold}}
         </div>

@@ -1,7 +1,13 @@
 <template>
 	<div>
-		<h1>pick your city</h1>
-		<CityNode v-for="city in staticCities" :key="city.id" :cityId="city.id" :city="city.name" :country='countryNamespace[city.country]'/>
+		<div v-if="isNewcomer">
+			<h1>before you go...</h1>
+			<h2>pick your cities</h2>
+		</div>
+		<div v-else>
+			<h1>pick your cities</h1>
+		</div>
+		<CityNode v-for="city in staticCities" :key="city.id" :isChecked="shouldBeChecked(city.id)" :cityId="city.id" :city="city.name" :country='countryNamespace[city.country]'/>
 		<button @click='goToMain'>submit</button>
 	</div>
 </template>
@@ -10,6 +16,7 @@
 import Vue from 'vue'
 import CityNode from "../components/CityNode.vue"
 import iso3166 from "../../iso3166.json"
+import { mapMutations, mapState } from 'vuex'
 // const countryNamespace = JSON.parse(iso3166)
 
 // interface city {
@@ -86,9 +93,26 @@ export default Vue.extend({
 			]
 		}
 	},
+	computed: {
+		...mapState([
+			"isNewcomer",
+			"followedList"
+		])
+	},
 	methods: {
+		...mapMutations([
+			"setIsNotNewcomer"
+		]),
 		goToMain () {
+			this.setIsNotNewcomer()
 			this.$router.push("/main")
+		},
+		shouldBeChecked (id: number): boolean {
+			if (this.followedList.findIndex((e: {id: number}) => e.id = id) != -1) {
+				return true
+			} else {
+				return false
+			}
 		}
 	}
 })
