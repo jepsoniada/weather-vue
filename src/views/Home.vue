@@ -1,14 +1,16 @@
 <template>
-	<div>
-		<div v-if="isNewcomer">
-			<h1>before you go...</h1>
-			<h2>pick your cities</h2>
+	<div class="wh-100 d-flex justify-content-center align-items-center">
+		<div class="col">
+			<div v-if="isNewcomer">
+				<h1>before you go...</h1>
+				<h2>pick your cities</h2>
+			</div>
+			<div v-else>
+				<h1>pick your cities</h1>
+			</div>
+			<CityNode v-for="city in staticCities" :key="city.id" :isChecked="shouldBeChecked(city.id)" :cityId="city.id" :city="city.name" :country='countryNamespace[city.country]'/>
+			<input type="button" class="btn btn-primary" @click='goToMain' value="submit">
 		</div>
-		<div v-else>
-			<h1>pick your cities</h1>
-		</div>
-		<CityNode v-for="city in staticCities" :key="city.id" :isChecked="shouldBeChecked(city.id)" :cityId="city.id" :city="city.name" :country='countryNamespace[city.country]'/>
-		<button @click='goToMain'>submit</button>
 	</div>
 </template>
 
@@ -17,18 +19,6 @@ import Vue from 'vue'
 import CityNode from "../components/CityNode.vue"
 import iso3166 from "../../iso3166.json"
 import { mapMutations, mapState } from 'vuex'
-// const countryNamespace = JSON.parse(iso3166)
-
-// interface city {
-// 	id: Number,
-// 	name: String,
-// 	state: String,
-// 	country: String,
-// 	coord: {
-// 		lon: Number,
-// 		lat: Number
-// 	}
-// }
 
 export default Vue.extend({
 	name: "Home",
@@ -88,6 +78,26 @@ export default Vue.extend({
 					"coord": {
 						"lon": 5.58681,
 						"lat": 7.1962
+					}
+				},
+				{
+					"id": 3169070,
+					"name": "Rome",
+					"state": "",
+					"country": "IT",
+					"coord": {
+						"lon": 12.4839,
+						"lat": 41.894741
+					}
+				},
+				{
+					"id": 2643743,
+					"name": "London",
+					"state": "",
+					"country": "GB",
+					"coord": {
+						"lon": -0.12574,
+						"lat": 51.50853
 					}
 				},
 			]

@@ -3,7 +3,6 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import SingIn from '../views/SingIn.vue'
 import Home from '../views/Home.vue'
 import Main from '../views/Main.vue'
-import Chart from '../views/Chart.vue'
 
 Vue.use(VueRouter)
 
@@ -22,11 +21,6 @@ const routes: Array<RouteConfig> = [
 		path: '/main',
 		name: 'Main',
 		component: Main,
-	},
-	{
-		path: '/chart',
-		name: 'Chart',
-		component: Chart,
 	},
 ]
 

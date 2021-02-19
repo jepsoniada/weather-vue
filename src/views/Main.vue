@@ -1,12 +1,13 @@
 <template>
     <div>
-        <div class="header">
-            <h1>:rain:</h1>
-            <button @click="goToCitySelect" >add city</button>
+        <header class="d-flex justify-content-between p-3">
+            <h1>list of cities</h1>
+            <button class="btn btn-primary" @click="goToCitySelect" >add city</button>
+        </header>
+        <WeatherChart/>
+        <div class="col">
+            <cityStats v-for="(weather, index) in APIresponse" :key="followedList[index].cityId" :cityData="followedList[index]" :weatherFromApi='weather'/>
         </div>
-        <cityStats v-for="(weather, index) in APIresponse" :key="followedList[index].cityId" :cityData="followedList[index]" :temperature="weather.main.temp" :humidity="weather.main.humidity"/>
-        <hr>
-        {{APIresponse}}
     </div>
 </template>
 
@@ -14,14 +15,7 @@
 import Vue from 'vue'
 import { mapState } from "vuex"
 import cityStats from "../components/cityStats.vue"
-
-// fill; to delete
-function* iota () {
-    let a = 0
-    for (;;) {
-        yield a++
-    }
-}
+import WeatherChart from "../components/WeatherChart.vue"
 
 interface currentApiResponse {
     coord: {
@@ -68,32 +62,21 @@ interface currentApiResponse {
     cod: number 
 }
 
-// function primitiveObjectComparision (obj1: object, obj2: object): boolean {
-//     if (Object.keys(obj1).length != Object.keys(obj1).length) {
-//         return false
-//     }
-//     for (let a of Object.keys(obj1)) {
-//         if (obj1[0] == obj2[a]) {
-//             return false
-//         }
-//     }
-//     return true
-// }
-
 export default Vue.extend({
     components: {
         cityStats,
+        WeatherChart,
     },
     data () {
         return {
+            focusedAPIResponse: new Array<currentApiResponse>(),
             APIresponse: new Array<currentApiResponse>(),
-            iota: iota(),
         }
     },
     computed: {
         ...mapState([
             "followedList",
-        ])
+        ]),
     },
     methods: {
         async getCurrentWeatherFromApi() {
@@ -109,6 +92,7 @@ export default Vue.extend({
                         } else {
                             this.APIresponse.splice(inedxInResArray, 1, res)
                         }
+                        console.log(res)
                     })
             }
         },
@@ -127,11 +111,3 @@ export default Vue.extend({
     },
 })
 </script>
-
-<style scoped>
-    .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-    }
-</style>

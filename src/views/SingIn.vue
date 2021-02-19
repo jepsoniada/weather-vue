@@ -1,10 +1,18 @@
 <template>
-	<div id="sing-in">
-		<div>
-			<input placeholder="login" v-model="login"/>
-			<input placeholder="password" v-model="password"/>
+	<div class="wh-100 d-flex justify-content-center align-items-center">
+		<div class="justify-content-center align-items-center">
+			<div class="col justify-content-center">
+				<div class="mb-3">
+					<input v-model="login" class="form-control" id="login" placeholder="login">
+				</div>
+				<div class="mb-3">
+					<input v-model="password" type="password" class="form-control" id="password" placeholder="password">
+				</div>
+			</div>
+			<div class="d-flex justify-content-center">
+				<button class="btn btn-primary" @click='checkInput'>sing in</button>
+			</div>
 		</div>
-		<button @click='checkInput'>sing in</button>
 	</div>
 </template>
 

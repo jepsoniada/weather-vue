@@ -9,6 +9,15 @@ interface cityInfo {
 	cityId: number,
 }
 
+interface focusedCity {
+	city: string,
+	country: string,
+	cityId: number,
+	dt: number,
+	temp: number,
+	humidity: number,
+}
+
 // init
 let followedListInit: cityInfo[] = []
 let isNewcomerInit: boolean = true
@@ -22,18 +31,18 @@ if (!localStorage.getItem("followedListStore") || (localStorage.getItem("isNewco
 
 export default new Vuex.Store({
 	state: {
+		// need init
 		isNewcomer: isNewcomerInit,
 		followedList: followedListInit,
-		count: 0,
+
+		focusedCity: {} as focusedCity,
+		weatherOfFocused: new Array<focusedCity>(),
 	},
 	mutations: {
 		addFocusedCity (state, info: cityInfo) {
-			// const FollowedCitiesJson = <string>localStorage.getItem("followedCities")
-			// state.followedList = JSON.parse(FollowedCitiesJson)
 			state.followedList.push(info)
 			localStorage.setItem("followedListStore", JSON.stringify(state.followedList))
 			console.log(state.followedList)
-			// localStorage.setItem("followedCities", JSON.stringify(info))
 		},
 		removeFromFocusedCities (state, info: cityInfo) {
 			// removes based on city id
@@ -41,13 +50,19 @@ export default new Vuex.Store({
 			localStorage.setItem("followedListStore", JSON.stringify(state.followedList))
 			console.log(state.followedList)
 		},
-		// addFocusedCity (state, info: cityInfo) {
-		// 	state.count = info.cityId
-		// }
 		setIsNotNewcomer(state) {
 			state.isNewcomer = false
 			localStorage.setItem("isNewcomerStore", JSON.stringify(state.isNewcomer))
-		}
+		},
+		setFocusedCity(state, newFocus: focusedCity) {
+			state.focusedCity = newFocus
+		},
+		addToWeatherOfFocused(state, value: focusedCity) {
+			if (state.weatherOfFocused.findIndex(e => e.cityId == state.focusedCity.cityId) == -1) {
+				state.weatherOfFocused.length = 0
+			}
+			state.weatherOfFocused.push(value)
+		},
 	},
 	actions: {
 	},
